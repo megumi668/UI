@@ -304,7 +304,7 @@ mainButton.MouseButton1Click:Connect(function()
     })
     
     local iconScaleTween = TweenService:Create(ImageLabel, clickTweenInfo, {
-        Size = isToggled and UDim2.new(0, 27, 0, 27) or UDim2.new(0, 40, 0, 40)
+        Size = isToggled and UDim2.new(0, 40, 0, 40) or UDim2.new(0, 60, 0, 60)
     })
     
     local targetColor = isToggled and Color3.fromRGB(15, 15, 15) or Color3.fromRGB(45, 45, 45)
@@ -1438,7 +1438,362 @@ function Library:CreateWindow(Setting)
 				end
 			end)
 			local sectionFunction = {}
-						function sectionFunction:AddAmethystButton(Setting, Callback)
+						function sectionFunction:AddToggle(idk,Setting)
+				local Title = tostring(Setting.Text or Setting.Title) or ""
+				local Desc = Setting.Desc or Setting.Description
+				local Default = Setting.Default or false
+				local Callback = Setting.Callback
+				local ToggleFrame = Instance.new("Frame")
+				local TogFrame1 = Instance.new("Frame")
+				
+				local checkbox = Instance.new("Frame") 
+				local checkStroke = Instance.new("UIStroke")
+				local checkCorner = Instance.new("UICorner")
+				local check = Instance.new("Frame")
+				local innerCorner = Instance.new("UICorner")
+
+				local ToggleDesc = Instance.new("TextLabel")
+				local ToggleTitle = Instance.new("TextLabel")
+				local ToggleBg = Instance.new("Frame")
+				local ToggleCorner = Instance.new("UICorner")
+				local ToggleButton = Instance.new("TextButton")
+				local ToggleList = Instance.new("UIListLayout")
+				
+				ToggleFrame.Name = "ToggleFrame"
+				ToggleFrame.Parent = Section
+				ToggleFrame.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+				ToggleFrame.BackgroundTransparency = 1.000
+				
+				if Desc and Desc ~= "" then
+					ToggleFrame.AutomaticSize = Enum.AutomaticSize.Y
+					ToggleFrame.Size = UDim2.new(1, 0, 0, 0)
+				else
+					ToggleFrame.AutomaticSize = Enum.AutomaticSize.None
+					ToggleFrame.Size = UDim2.new(1, 0, 0, 30)
+				end
+
+				TogFrame1.Name = "TogFrame1"
+				TogFrame1.Parent = ToggleFrame
+				TogFrame1.AnchorPoint = Vector2.new(0.5, 0.5)
+				TogFrame1.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+				TogFrame1.BackgroundTransparency = 1.000
+				TogFrame1.Position = UDim2.new(0.5, 0, 0.5, 0)
+				TogFrame1.Size = UDim2.new(1, -10, 1, 0)
+				
+				checkbox.Name = "checkbox"
+				checkbox.Parent = TogFrame1
+				checkbox.AnchorPoint = Vector2.new(1, 0.5)
+				checkbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20) 
+				checkbox.Position = UDim2.new(1, -5, 0.5, 0)
+				checkbox.Size = UDim2.new(0, 22, 0, 22) 
+                
+                checkCorner.CornerRadius = UDim.new(0, 6) 
+                checkCorner.Parent = checkbox
+
+                checkStroke.Color = Color3.fromRGB(170, 85, 255) 
+                checkStroke.Thickness = 2
+                checkStroke.Parent = checkbox
+				
+				check.Name = "check"
+				check.Parent = checkbox
+				check.AnchorPoint = Vector2.new(0.5, 0.5)
+				check.BackgroundColor3 = Color3.fromRGB(170, 85, 255) 
+				check.Position = UDim2.new(0.5, 0, 0.5, 0)
+                check.Size = UDim2.new(0, 0, 0, 0) 
+
+                innerCorner.CornerRadius = UDim.new(0, 3)
+                innerCorner.Parent = check
+				
+				if Desc and Desc ~= "" then
+					ToggleDesc.Name = "ToggleDesc"
+					ToggleDesc.Parent = TogFrame1
+					ToggleDesc.BackgroundTransparency = 1.000
+					ToggleDesc.Position = UDim2.new(0, 10, 0, 25)
+					ToggleDesc.Size = UDim2.new(1, -50, 0, 0)
+					ToggleDesc.Font = Enum.Font.Gotham
+					ToggleDesc.Text = Desc
+					ToggleDesc.TextSize = 12.000
+					ToggleDesc.TextWrapped = true
+					ToggleDesc.TextXAlignment = Enum.TextXAlignment.Left
+					ToggleDesc.RichText = true
+					ToggleDesc.AutomaticSize = Enum.AutomaticSize.Y
+					ToggleDesc.TextColor3 = Color3.fromRGB(150, 150, 150)
+					
+					local pad = Instance.new("UIPadding", TogFrame1)
+					pad.PaddingTop = UDim.new(0, 5)
+					pad.PaddingBottom = UDim.new(0, 5)
+				end
+				
+				ToggleTitle.Name = "TextColor"
+				ToggleTitle.Parent = TogFrame1
+				ToggleTitle.BackgroundTransparency = 1.000
+				
+				if Desc and Desc ~= "" then
+					ToggleTitle.Position = UDim2.new(0, 10, 0, 5)
+					ToggleTitle.Size = UDim2.new(1, -50, 0, 20)
+				else
+					ToggleTitle.Position = UDim2.new(0, 10, 0, 0)
+					ToggleTitle.Size = UDim2.new(1, -50, 1, 0)
+				end
+				
+				ToggleTitle.Font = Enum.Font.GothamBlack
+				ToggleTitle.Text = Title
+				ToggleTitle.TextSize = 14.000
+				ToggleTitle.TextXAlignment = Enum.TextXAlignment.Left
+				ToggleTitle.TextYAlignment = Enum.TextYAlignment.Center
+				ToggleTitle.RichText = true
+				ToggleTitle.TextColor3 = Color3.fromRGB(240, 240, 240)
+				
+				ToggleBg.Name = "Background1"
+				ToggleBg.Parent = TogFrame1
+				ToggleBg.Size = UDim2.new(1, 0, 1, 0)
+				ToggleBg.ZIndex = 0
+				ToggleBg.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+				ToggleBg.BackgroundTransparency = 0.05
+				
+				ToggleCorner.CornerRadius = UDim.new(0, 10)
+				ToggleCorner.Parent = ToggleBg
+				
+				ToggleButton.Name = "ToggleButton"
+				ToggleButton.Parent = TogFrame1
+				ToggleButton.BackgroundTransparency = 1.000
+				ToggleButton.Size = UDim2.new(1, 0, 1, 0)
+				ToggleButton.Text = ""
+				
+				ToggleList.Parent = ToggleFrame
+				ToggleList.HorizontalAlignment = Enum.HorizontalAlignment.Center
+				ToggleList.SortOrder = Enum.SortOrder.LayoutOrder
+				ToggleList.VerticalAlignment = Enum.VerticalAlignment.Center
+				ToggleList.Padding = UDim.new(0, 5)
+				
+				local function ChangeStage(val)
+					local csize = val and UDim2.new(0.6, 0, 0.6, 0) or UDim2.new(0, 0, 0, 0)
+					TweenService:Create(check, TweenInfo.new(0.2), { Size = csize }):Play()
+                    TweenService:Create(checkStroke, TweenInfo.new(0.2), { 
+                        Color = val and Color3.fromRGB(200, 120, 255) or Color3.fromRGB(170, 85, 255)
+                    }):Play()
+				end
+				
+				ChangeStage(Default)
+				if Default and Callback then Callback(Default) end
+				
+				local function ButtonClick()
+					Default = not Default
+					ChangeStage(Default)
+					if Callback then pcall(Callback, Default) end
+				end
+				
+				ToggleButton.MouseButton1Click:Connect(ButtonClick)
+
+				local toggleFunction = {}
+				function toggleFunction.SetStage(value)
+					if value ~= Default then ButtonClick() end
+				end
+				
+				local controlData = { Name = Title, Section = Section, Element = ToggleFrame, SectionName = Section_Name, TabName = Page_Name, TabButton = PageName }
+				table.insert(getgenv().AllControls, controlData)
+				
+				return toggleFunction
+			end
+
+			function sectionFunction:AddButton(Setting, Callback)
+				local Title = Setting.Title or Setting.Text or ""
+				local Desc = Setting.Desc or Setting.Description
+				local Callback = Setting.Callback or Setting.Func or function() end
+				
+				local Button = Instance.new("Frame")
+				local RowBG_1 = Instance.new("Frame")
+				local UICorner_1 = Instance.new("UICorner")
+				local RowHover_1 = Instance.new("Frame")
+				local UICorner_2 = Instance.new("UICorner")
+				local TextColor_1 = Instance.new("TextLabel")
+				local TextDesc = Instance.new("TextLabel") 
+				local ClickArea_1 = Instance.new("Frame")
+				local UICorner_3 = Instance.new("UICorner")
+				local UIGradient_1 = Instance.new("UIGradient")
+				local ImageLabel_1 = Instance.new("ImageLabel")
+				local Frame_1 = Instance.new("Frame")
+				local UICorner_4 = Instance.new("UICorner")
+				local UIScale_1 = Instance.new("UIScale")
+				local Button_1 = Instance.new("TextButton")
+				
+				Button.Name = "Button"
+				Button.Parent = Section
+				Button.BackgroundColor3 = Color3.fromRGB(163,162,165)
+				Button.BackgroundTransparency = 1
+				
+				if Desc and Desc ~= "" then
+					Button.AutomaticSize = Enum.AutomaticSize.Y
+					Button.Size = UDim2.new(1, 0, 0, 0)
+				else
+					Button.Size = UDim2.new(1, 0, 0, 30) 
+				end
+				
+				RowBG_1.Name = "RowBG"
+				RowBG_1.Parent = Button
+				RowBG_1.AnchorPoint = Vector2.new(0.5, 0.5)
+				RowBG_1.BackgroundColor3 = getgenv().UIColor["Background 1 Color"]
+				RowBG_1.BackgroundTransparency = getgenv().UIColor["Background 1 Transparency"]
+				RowBG_1.Position = UDim2.new(0.5, 0, 0.5, 0)
+				RowBG_1.Size = UDim2.new(1, -10, 1, 0)
+				
+				UICorner_1.Parent = RowBG_1
+				UICorner_1.CornerRadius = UDim.new(0,10)
+				
+				RowHover_1.Name = "RowHover"
+				RowHover_1.Parent = RowBG_1
+				RowHover_1.BackgroundColor3 = getgenv().UIColor["Background 2 Color"]
+				RowHover_1.BackgroundTransparency = 1
+				RowHover_1.Size = UDim2.new(1, 0, 1, 0)
+				RowHover_1.ZIndex = 2
+				
+				UICorner_2.Parent = RowHover_1
+				UICorner_2.CornerRadius = UDim.new(0,10)
+				
+				TextColor_1.Name = "TextColor"
+				TextColor_1.Parent = RowBG_1
+				TextColor_1.BackgroundColor3 = Color3.fromRGB(163,162,165)
+				TextColor_1.BackgroundTransparency = 1
+				
+				if Desc and Desc ~= "" then
+					TextColor_1.Position = UDim2.new(0, 12, 0, 5)
+					TextColor_1.Size = UDim2.new(1, -110, 0, 20)
+				else
+					TextColor_1.Position = UDim2.new(0, 12, 0, 0)
+					TextColor_1.Size = UDim2.new(1, -110, 1, 0)
+				end
+				
+				TextColor_1.Font = Enum.Font.GothamBold
+				TextColor_1.Text = Title
+				TextColor_1.TextColor3 = getgenv().UIColor["GUI Text Color"]
+				TextColor_1.TextSize = 14
+				TextColor_1.TextStrokeTransparency = 0.85
+				TextColor_1.TextXAlignment = Enum.TextXAlignment.Left
+				
+				if Desc and Desc ~= "" then
+					TextDesc.Name = "Description"
+					TextDesc.Parent = RowBG_1
+					TextDesc.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					TextDesc.BackgroundTransparency = 1
+					TextDesc.Position = UDim2.new(0, 12, 0, 22)
+					TextDesc.Size = UDim2.new(1, -110, 0, 0)
+					TextDesc.AutomaticSize = Enum.AutomaticSize.Y
+					TextDesc.Font = Enum.Font.Gotham
+					TextDesc.Text = Desc
+					TextDesc.TextColor3 = Color3.fromRGB(180, 180, 180)
+					TextDesc.TextSize = 12
+					TextDesc.TextWrapped = true
+					TextDesc.TextXAlignment = Enum.TextXAlignment.Left
+					
+					local pad = Instance.new("UIPadding", RowBG_1)
+					pad.PaddingTop = UDim.new(0, 5)
+					pad.PaddingBottom = UDim.new(0, 5)
+				end
+				
+				ClickArea_1.Name = "ClickArea"
+				ClickArea_1.Parent = RowBG_1
+				ClickArea_1.AnchorPoint = Vector2.new(1, 0.5)
+				ClickArea_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				ClickArea_1.Position = UDim2.new(1, -8, 0.5, 0)
+				ClickArea_1.Size = UDim2.new(0, 94, 0, 30)
+				ClickArea_1.ClipsDescendants = true
+				
+				UICorner_3.Parent = ClickArea_1
+				UICorner_3.CornerRadius = UDim.new(0,12)
+				
+				UIGradient_1.Parent = ClickArea_1
+				UIGradient_1.Color = ColorSequence.new{
+					ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+					ColorSequenceKeypoint.new(0.4, Color3.fromRGB(240, 240, 240)),
+					ColorSequenceKeypoint.new(0.6, Color3.fromRGB(230, 230, 230)),
+					ColorSequenceKeypoint.new(1, Color3.fromRGB(220, 220, 220))
+				}
+				UIGradient_1.Rotation = 90
+				
+				ImageLabel_1.Parent = ClickArea_1
+				ImageLabel_1.AnchorPoint = Vector2.new(0.5, 0.5)
+				ImageLabel_1.BackgroundColor3 = Color3.fromRGB(163,162,165)
+				ImageLabel_1.BackgroundTransparency = 1
+				ImageLabel_1.Position = UDim2.new(0.5, 0, 0.5, 0)
+				ImageLabel_1.Size = UDim2.new(1, 14, 1, 14)
+				ImageLabel_1.ZIndex = 0
+				ImageLabel_1.Image = "rbxassetid://5028857084"
+				ImageLabel_1.ImageTransparency = 0.7
+				ImageLabel_1.ScaleType = Enum.ScaleType.Slice
+				ImageLabel_1.SliceCenter = Rect.new(24, 24, 276, 276)
+				
+				Frame_1.Parent = ClickArea_1
+				Frame_1.AnchorPoint = Vector2.new(0.5, 0)
+				Frame_1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Frame_1.BackgroundTransparency = 0.8
+				Frame_1.Position = UDim2.new(0.5, 0, 0, 2)
+				Frame_1.Size = UDim2.new(1, -6, 0, 10)
+				Frame_1.ZIndex = 2
+				
+				UICorner_4.Parent = Frame_1
+				UICorner_4.CornerRadius = UDim.new(0,10)
+				
+				UIScale_1.Parent = ClickArea_1
+				
+				Button_1.Name = "Button"
+				Button_1.Parent = ClickArea_1
+				Button_1.Active = true
+				Button_1.AutoButtonColor = false
+				Button_1.BackgroundColor3 = Color3.fromRGB(163,162,165)
+				Button_1.BackgroundTransparency = 1
+				Button_1.Size = UDim2.new(1, 0, 1, 0)
+				Button_1.Font = Enum.Font.GothamBold
+				Button_1.Text = "Click"
+				Button_1.TextColor3 = Color3.fromRGB(40, 40, 40)
+				Button_1.TextSize = 13
+				
+				local scaleHover = TweenService:Create(UIScale_1, TweenInfo.new(0.12, Enum.EasingStyle.Sine), { Scale = 1.05 })
+				local scaleNormal = TweenService:Create(UIScale_1, TweenInfo.new(0.12, Enum.EasingStyle.Sine), { Scale = 1 })
+				
+				Button_1.MouseEnter:Connect(function() scaleHover:Play() end)
+				Button_1.MouseLeave:Connect(function() scaleNormal:Play() end)
+				
+				Button_1.MouseButton1Down:Connect(function()
+					local ripple = Instance.new("Frame")
+					ripple.AnchorPoint = Vector2.new(0.5, 0.5)
+					ripple.Position = UDim2.new(0.5, 0, 0.5, 0)
+					ripple.Size = UDim2.new(0, 0, 0, 0)
+					ripple.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+					ripple.BackgroundTransparency = 0.6
+					ripple.ZIndex = 20
+					ripple.Parent = ClickArea_1
+					
+					local rippleCorner = Instance.new("UICorner")
+					rippleCorner.CornerRadius = UICorner_3.CornerRadius
+					rippleCorner.Parent = ripple
+					
+					local rippleTween = TweenService:Create(ripple, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+						Size = UDim2.new(1, 0, 1, 0),
+						BackgroundTransparency = 1,
+						Position = UDim2.new(0.5, 0, 0.5, 0)
+					})
+					rippleTween:Play()
+					rippleTween.Completed:Connect(function() ripple:Destroy() end)
+					
+					Callback()
+				end)
+				
+				local f = {}
+				function f:SetTitle(vl) TextColor_1.Text = vl end
+				
+				local controlData = {
+					Name = Title,
+					Section = Section,
+					Element = Button,
+					SectionName = Section_Name,
+					TabName = Page_Name,
+					TabButton = PageName
+				}
+				table.insert(getgenv().AllControls, controlData)
+				return f
+			end
+
+			function sectionFunction:AddAmethystButton(Setting, Callback)
 				local Title = Setting.Title or Setting.Text or ""
 				local Desc = Setting.Desc or Setting.Description
 				local Callback = Setting.Callback or Setting.Func or function() end
@@ -1517,7 +1872,6 @@ function Library:CreateWindow(Setting)
 					pad.PaddingBottom = UDim.new(0, 5)
 				end
 				
-                -- [TẠO Ô VUÔNG CÓ DẤU CHẤM Y HỆT ẢNH]
 				ClickArea_1.Name = "SquareIcon"
 				ClickArea_1.Parent = RowBG_1
 				ClickArea_1.AnchorPoint = Vector2.new(0, 0.5)
@@ -1533,7 +1887,6 @@ function Library:CreateWindow(Setting)
                 btnStroke.Thickness = 2
                 btnStroke.Parent = ClickArea_1
 
-                -- Dấu chấm nhỏ xíu ở giữa
                 dot.Name = "Dot"
                 dot.Parent = ClickArea_1
                 dot.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -1553,8 +1906,8 @@ function Library:CreateWindow(Setting)
 				Button_1.Size = UDim2.new(1, 0, 1, 0)
 				Button_1.Text = ""
 				
-				local scaleHover = game.TweenService:Create(UIScale_1, TweenInfo.new(0.12, Enum.EasingStyle.Sine), { Scale = 0.98 })
-				local scaleNormal = game.TweenService:Create(UIScale_1, TweenInfo.new(0.12, Enum.EasingStyle.Sine), { Scale = 1 })
+				local scaleHover = TweenService:Create(UIScale_1, TweenInfo.new(0.12, Enum.EasingStyle.Sine), { Scale = 0.98 })
+				local scaleNormal = TweenService:Create(UIScale_1, TweenInfo.new(0.12, Enum.EasingStyle.Sine), { Scale = 1 })
 				
 				Button_1.MouseEnter:Connect(function() scaleHover:Play() end)
 				Button_1.MouseLeave:Connect(function() scaleNormal:Play() end)
@@ -1573,7 +1926,7 @@ function Library:CreateWindow(Setting)
 					rippleCorner.CornerRadius = UICorner_3.CornerRadius
 					rippleCorner.Parent = ripple
 					
-					local rippleTween = game.TweenService:Create(ripple, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+					local rippleTween = TweenService:Create(ripple, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
 						Size = UDim2.new(1, 0, 1, 0),
 						BackgroundTransparency = 1
 					})
