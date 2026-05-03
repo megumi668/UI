@@ -170,6 +170,10 @@ ImageLabel.BorderSizePixel = 0
 ImageLabel.ImageColor3 = Color3.fromRGB(255, 255, 255)
 ImageLabel.Image = "rbxassetid://118852724760600"
 
+local imgCorner = Instance.new("UICorner")
+imgCorner.CornerRadius = UDim.new(1, 0) -- 1, 0 là tỷ lệ tròn tuyệt đối
+imgCorner.Parent = ImageLabel
+
 local isToggled = getgenv().UIToggled or false
 local isHovering = false
 local zoomedIn = false
